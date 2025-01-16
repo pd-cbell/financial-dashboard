@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <header>
+         <div style="text-align: right; margin-top: 10px;">
+            <label>
+                <input type="checkbox" id="dashboard-high-load-toggle" style="transform: scale(1.2); margin-right: 10px;">
+                <strong>Simulate High Load</strong>
+            </label>
+        </div>
+    </header>    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #007bff;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .metric-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .metric {
+            width: 30%;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+            .metric[data-alert="true"] {
+            background-color: #ffe6e6;
+            border: 1px solid red;
+        }
+        .metric[data-alert="false"] {
+            background-color: #e6ffe6;
+            border: 1px solid green;
+        }    
+        /* Chart Row Styling */
+        .chart-container-row {
+            display: flex;
+            flex-wrap: nowrap; /* Prevent wrapping */
+            justify-content: space-between; /* Distribute space between charts */
+            width: 100%; /* Ensure the row spans the full width */
+            gap: 20px; /* Add spacing between charts */
+        }
+        .chart-container {
+            flex: 1; /* Make each chart take an equal amount of space */
+            min-width: 0; /* Prevent flexbox issues where items overflow */
+            max-width: 48%; /* Ensure charts don't exceed 48% of the row */
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container canvas {
+            max-height: 300px;
+            width: 100%; /* Ensure the canvas scales to its container */
+        }
+    
+        /* Responsive Design for Narrow Screens */
+        @media (max-width: 768px) {
+            .chart-container-row {
+                flex-direction: column; /* Stack charts vertically */
+            }
+            .chart-container {
+                max-width: 100%; /* Full width for charts in stacked layout */
+            }
+        }
+    </style>       
+</head>
+<body>
+    <header>
+        <h1>Financial Dashboard</h1>
+    </header>
+    <div class="container">
+        <!-- Top-Line Widgets -->
+        <div class="metric-container">
+            <div class="metric">
+                <h2 id="users-impacted">0</h2>
+                <p>Users Impacted</p>
+            </div>
+            <!-- <div class="metric">
+                <h2 id="active-alerts">No Active Major INC</h2>
+                <p>Alerts</p>
+            </div>             -->
+            <div class="metric">
+                <h2 id="total-transactions">0</h2>
+                <p>Total Transactions</p>
+            </div>
+            <div class="metric">
+                <h2 id="success-rate">0%</h2>
+                <p>Success Rate</p>
+            </div>
+            <div class="metric">
+                <h2 id="peak-transactions">0</h2>
+                <p>Peak Transactions (Last Hour)</p>
+            </div>
+        </div>
+    
+        <!-- Key Charts -->
+        <div class="chart-container-row">
+            <div class="chart-container">
+                <h3>Transaction Volume (Last 60 Minutes)</h3>
+                <canvas id="volume-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>24-Hour Transactions</h3>
+                <canvas id="hourly-transactions-chart"></canvas> 
+            </div>   
+            <div class="chart-container">
+                <h3>Failure Trends</h3>
+                <canvas id="failure-trends-chart"></canvas>
+            </div>
+        </div>
+    
+        <!-- Historical Charts -->
+        <!-- <div class="chart-container-row"> -->
+
+            <!-- </div> -->
+    
+            <!-- <div class="chart-container">
+                <h3>Additional Chart Placeholder</h3>
+                <canvas id="additional-chart"></canvas>
+            </div> -->
+        <!-- </div> -->
+    </div>
+    
+
+    <!-- Link to the dashboard script -->
+    <script src="js/dashboard.js"></script>
+
+    <!-- Link to charts script-->
+    <script src="js/charts.js"></script>
+    
+</body>
+</html>

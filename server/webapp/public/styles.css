@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 1em;
+    text-align: center;
+}
+main {
+    max-width: 600px;
+    margin: 2em auto;
+    padding: 1em;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+label {
+    display: block;
+    margin-top: 1em;
+}
+input, select, button {
+    width: 100%;
+    padding: 0.5em;
+    margin-top: 0.5em;
+}
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.results-section {
+    margin-top: 2em;
+    text-align: center;
+}
+#results p {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.retry-button {
+    background-color: #ff9800;
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.retry-button:hover {
+    background-color: #e68900;
+}
