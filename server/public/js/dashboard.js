@@ -157,9 +157,9 @@ function updateTransactionVolume() {
     volumeData.successful.shift();
     volumeData.successful.push(successful);
 
-    // Update Peak Transactions to reflect increased activity
+    // Ensure peak transactions scale dynamically under high load
     const peakTransactions = Math.max(...volumeData.attempted);
-    document.getElementById('peak-transactions').textContent = peakTransactions > 1000 ? peakTransactions : 1000;
+    document.getElementById('peak-transactions').textContent = highLoadActive ? peakTransactions * 4 : peakTransactions;
 
     // Update the chart with new attempted and failed transaction values
     volumeChart.data.datasets[0].data = volumeData.attempted;
