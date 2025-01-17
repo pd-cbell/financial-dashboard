@@ -24,8 +24,8 @@ function updateWidgets() {
 
     // Update Success Rate
     const successRateElement = document.getElementById('success-rate');
-    successRateElement.textContent = dashboardHighLoadToggle.checked ? '85%' : '99%';
-    successRateElement.style.color = dashboardHighLoadToggle.checked ? 'red' : 'black';
+    successRateElement.textContent = highLoadActive ? '85%' : '99%';
+    successRateElement.style.color = highLoadActive ? 'red' : 'black';
 
     // Update Peak Transactions (Last Hour)
     const peakTransactions = Math.round(Math.max(...volumeData.attempted));
@@ -33,53 +33,75 @@ function updateWidgets() {
 
     // Update Users Impacted
     const usersImpactedElement = document.getElementById('users-impacted');
-    usersImpactedElement.textContent = dashboardHighLoadToggle.checked ? totalFailed : 0;
-    usersImpactedElement.style.color = totalFailed > 100 && dashboardHighLoadToggle.checked ? 'red' : 'black';
+    usersImpactedElement.textContent = highLoadActive ? totalFailed : 0;
+    usersImpactedElement.style.color = totalFailed > 100 && highLoadActive ? 'red' : 'black';
 }
 
 // Update Widgets Every 5 Seconds
 setInterval(updateWidgets, 5000);
 
 // High-Load Toggle Logic
-const dashboardHighLoadToggle = document.getElementById('dashboard-high-load-toggle');
+// const dashboardHighLoadToggle = document.getElementById('dashboard-high-load-toggle');
 
-dashboardHighLoadToggle.addEventListener('change', () => {
-    if (dashboardHighLoadToggle.checked) {
-        // High-load scenario
-        const totalTransactions = 600; // Example spike
-        const failedTransactions = Math.floor(totalTransactions * 0.15); // 15% failure rate
-        const successfulTransactions = totalTransactions - failedTransactions;
+// Select the header element
+const dashboardHeader = document.querySelector('header');
+let highLoadActive = false;
 
-        // Inject failures into volumeData for the last 15 minutes
-        for (let i = 0; i < 15; i++) {
-            const spike = totalTransactions / 60;
-            volumeData.attempted[volumeData.attempted.length - 1 - i] = spike;
-            volumeData.successful[volumeData.successful.length - 1 - i] = spike * 0.85;
-        }
+// Function to toggle High Load Mode
+function toggleHighLoad() {
+    highLoadActive = !highLoadActive;
 
-        // Update hourly data for high load
-        for (let i = hourlyData.length - 3; i < hourlyData.length; i++) {
-            hourlyData[i].volume = totalTransactions;
-            hourlyData[i].failed = failedTransactions;
-        }
-
-        updateFailureTrends();
-        update24HourChart();
-        volumeChart.update();
+    if (highLoadActive) {
+        // Activate high load mode
+        dashboardHeader.style.backgroundColor = '#0056b3'; // Darker blue
+        applyHighLoad();
     } else {
-        // Restore normal operation
-        hourlyData.forEach((data) => {
-            data.failed = Math.floor(data.volume * 0.005); // Reset failure rate to 0.5%
-        });
-
-        volumeData.attempted = volumeData.attempted.map(() => Math.floor(Math.random() * 150) + 75);
-        volumeData.successful = volumeData.attempted.map((attempted) => Math.floor(attempted * 0.99));
-
-        updateFailureTrends();
-        update24HourChart();
-        volumeChart.update();
+        // Deactivate high load mode
+        dashboardHeader.style.backgroundColor = '#007bff'; // Default blue
+        restoreNormalLoad();
     }
-});
+}
+
+// Apply high load scenario
+function applyHighLoad() {
+    const totalTransactions = 600; // Example spike
+    const failedTransactions = Math.floor(totalTransactions * 0.15); // 15% failure rate
+    const successfulTransactions = totalTransactions - failedTransactions;
+
+    for (let i = 0; i < 15; i++) {
+        const spike = totalTransactions / 60;
+        volumeData.attempted[volumeData.attempted.length - 1 - i] = spike;
+        volumeData.successful[volumeData.successful.length - 1 - i] = spike * 0.85;
+    }
+
+    for (let i = hourlyData.length - 3; i < hourlyData.length; i++) {
+        hourlyData[i].volume = totalTransactions;
+        hourlyData[i].failed = failedTransactions;
+    }
+
+    updateFailureTrends();
+    update24HourChart();
+    volumeChart.update();
+    updateWidgets();
+}
+
+// Restore normal operation
+function restoreNormalLoad() {
+    hourlyData.forEach((data) => {
+        data.failed = Math.floor(data.volume * 0.005);
+    });
+
+    volumeData.attempted = volumeData.attempted.map(() => Math.floor(Math.random() * 150) + 75);
+    volumeData.successful = volumeData.attempted.map((attempted) => Math.floor(attempted * 0.99));
+
+    updateFailureTrends();
+    update24HourChart();
+    volumeChart.update();
+    updateWidgets();
+}
+
+// Attach click event to the header
+dashboardHeader.addEventListener('click', toggleHighLoad);
 
 // Last 60 Minutes Transaction Volume Chart
 const ctxVolume = document.getElementById('volume-chart').getContext('2d');
@@ -97,10 +119,10 @@ const volumeChart = new Chart(ctxVolume, {
                 fill: true,
             },
             {
-                label: 'Successful Transactions',
-                data: volumeData.successful,
-                borderColor: 'rgba(40, 167, 69, 1)',
-                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                label: 'Failed Transactions',
+                data: volumeData.attempted.map((attempted, index) => attempted - volumeData.successful[index]),
+                borderColor: 'rgba(255, 0, 0, 1)',
+                backgroundColor: 'rgba(255, 0, 0, 0.1)',
                 borderWidth: 2,
                 fill: true,
             },
@@ -116,8 +138,18 @@ const volumeChart = new Chart(ctxVolume, {
 
 // Simulate Real-Time Data for Last 60 Minutes
 function updateTransactionVolume() {
-    const attempted = Math.floor(Math.random() * (150 - 75 + 1)) + 75;
-    const successful = Math.floor(attempted * 0.99);
+    let baseAttempted = Math.floor(Math.random() * (150 - 75 + 1)) + 75; // Normal traffic range
+    let attempted, successful, failed;
+
+    if (highLoadActive) {
+        attempted = baseAttempted * 4; // 4x transaction volume increase under high load
+        successful = Math.floor(attempted * 0.85); // 85% success rate
+    } else {
+        attempted = baseAttempted;
+        successful = Math.floor(attempted * 0.99); // Normal 99% success rate
+    }
+
+    failed = attempted - successful; // Calculate failed transactions
 
     volumeData.attempted.shift();
     volumeData.attempted.push(attempted);
@@ -125,14 +157,21 @@ function updateTransactionVolume() {
     volumeData.successful.shift();
     volumeData.successful.push(successful);
 
+    // Update Peak Transactions to reflect increased activity
+    const peakTransactions = Math.max(...volumeData.attempted);
+    document.getElementById('peak-transactions').textContent = peakTransactions > 1000 ? peakTransactions : 1000;
+
+    // Update the chart with new attempted and failed transaction values
     volumeChart.data.datasets[0].data = volumeData.attempted;
-    volumeChart.data.datasets[1].data = volumeData.successful;
+    volumeChart.data.datasets[1].data = volumeData.attempted.map((attempted, index) => attempted - volumeData.successful[index]);
     volumeChart.update();
 }
 
 // Run the Transaction Volume Update Every 5 Seconds
 setInterval(updateTransactionVolume, 5000);
 
+// Run the Transaction Volume Update Every 5 Seconds
+setInterval(updateTransactionVolume, 5000);
 // 24-Hour Transactions Chart
 const ctx24Hour = document.getElementById('hourly-transactions-chart').getContext('2d');
 const hourlyTransactionsChart = new Chart(ctx24Hour, {
