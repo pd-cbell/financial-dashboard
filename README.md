@@ -78,7 +78,7 @@ financial-dashboard/
 
 The **Stock Simulator** makes a `GET` request to an external API hosted on **Heroku**. Each SC **must** modify this endpoint before using the simulator.
 
-1. Open **`config.js`** and locate the API configuration:
+1. Open **`scripts.js`** and locate the API configuration:
    ```js
    const API_ENDPOINT = "https://your-heroku-app.herokuapp.com/api/transactions";
    ```
@@ -169,7 +169,7 @@ The **Stock Simulator** makes a `GET` request to an external API hosted on **Her
 
 ### Stock Transactions Not Working?
 - Verify `script.js` is linked correctly in `index.html`.
-- Ensure the **API endpoint is correct** in `config.js`.
+- Ensure the **API endpoint is correct** in `scripts.js`.
 
 ### Live Data Not Updating?
 - Ensure `dashboard.js` and `charts.js` are running correctly.
