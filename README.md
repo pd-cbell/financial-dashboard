@@ -4,6 +4,9 @@
 
 This repository provides all necessary files to set up and run the **Financial Dashboard** and **Stock Simulator** demo applications. These tools simulate real-time transaction monitoring, failure trends, and stock trading workflows.
 
+## Storyboard
+https://docs.google.com/document/d/1KY7JCLngTcEEusR1otKmYX-rKGPkbda189Zi1_r4-OQ/edit?tab=t.0
+
 ### Features
 - **Real-time transaction monitoring** with charts.
 - **Dynamic stock transactions** with simulated success/failure rates.
@@ -17,6 +20,7 @@ Ensure you have the following installed:
 - **[Node.js](https://nodejs.org/)** (Required for running the local server)
 - **[Git](https://git-scm.com/)** (To clone the repository)
 - A modern web browser (Chrome, Firefox, Edge, or Safari)
+- Crux Payloads are located in the Crux - Export.json file in the financial-dashboard root
 
 ---
 

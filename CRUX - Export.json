@@ -1,0 +1,200 @@
+[
+  {
+    "event_group": {
+      "name": "Financial Dashboard Failure",
+      "hash_id": "142bbf85-ab16-4ec6-b485-674774104f6e",
+      "event_group_items": [
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"(PRD) - TransactionFailureRate - (service=payment_processing | gateway=main_gateway | region=us-east-1)\",\r\n    \"source\": \"/alertmanager\",\r\n    \"severity\": \"critical\",\r\n    \"component\": \"payment-infra\",\r\n    \"group\": \"transaction-observability\",\r\n    \"class\": \"transaction-failure-detection\",\r\n    \"custom_details\": {\r\n      \"description\": \"(PRD) - Transaction failures spiked above threshold (service=payment_processing | gateway=main_gateway | region=us-east-1)\",\r\n      \"alert_type\": \"TRANSACTION_FAILURE_RATE\",\r\n      \"alertname\": \"TransactionFailureRate-MAIN_GATEWAY_CRITICAL\",\r\n      \"aws_region\": \"us-east-1\",\r\n      \"urgency\": \"high\",\r\n      \"dashboard\": \"https://grafana.example.com/dashboard?orgId=1&panelId=2\",\r\n      \"dimension_service\": \"Payment Processing\",\r\n      \"dimension_gateway\": \"main_gateway\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"dimension_environment\": \"prd\",\r\n      \"failure_rate\": \"8.3%\",\r\n      \"impacted_transactions\": \"1200\",\r\n      \"metric_classification\": \"P0\",\r\n      \"omd_alert_id\": \"transaction-observability-payment-infra-TransactionFailureRate-MAIN_GATEWAY_CRITICAL\",\r\n      \"omd_business_service\": \"transaction-processing\",\r\n      \"omd_component\": \"payment-infra\",\r\n      \"omd_environment\": \"prd\",\r\n      \"omd_service\": \"transaction-observability\",\r\n      \"runbook\": \"https://runbook.example.com/payment_processing_failure\",\r\n      \"severity\": \"critical\",\r\n      \"summary\": \"TransactionFailureRate MAIN_GATEWAY exceeded threshold\",\r\n      \"sla_impact\": \"Potential SLA breach with gateway\",\r\n      \"time_detected\": \"2025-01-13T10:15:00Z\"\r\n    }\r\n  },\r\n  \"contexts\": [\r\n    {\r\n      \"type\": \"link\",\r\n      \"href\": \"https://splunk.example.com/search?q=transaction_failures\",\r\n      \"text\": \"Splunk Transaction Failures Logs\"\r\n    },\r\n    {\r\n      \"type\": \"link\",\r\n      \"href\": \"https://grafana.example.com/d/qoe-dashboard\",\r\n      \"text\": \"Grafana Dashboard\"\r\n    }\r\n  ]\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 60,
+          "times": 2,
+          "interval_seconds": 180,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"(PRD) - High CPU Utilization - (service=payment_processing | instance=payment-db-01 | region=us-east-1)\",\r\n    \"source\": \"/alertmanager\",\r\n    \"severity\": \"warning\",\r\n    \"component\": \"database\",\r\n    \"group\": \"resource-monitoring\",\r\n    \"class\": \"cpu-utilization\",\r\n    \"custom_details\": {\r\n      \"description\": \"CPU utilization exceeded 85% for 5 minutes on payment-db-01.\",\r\n      \"alert_type\": \"HIGH_CPU_UTILIZATION\",\r\n      \"alertname\": \"HighCPUUtilization-PaymentDB01\",\r\n      \"dimension_service\": \"payment_processing\",\r\n      \"dimension_instance\": \"payment-db-01\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"current_cpu_usage\": \"87%\",\r\n      \"sla_impact\": \"Potential service slowdown.\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 1,
+          "interval_seconds": 1,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"(PRD) - Database Connection Errors - (service=payment_processing | instance=payment-db-{{int(1,10) | region={{list(us-east-1,us-west-1)}})\",\r\n    \"source\": \"/alertmanager\",\r\n    \"severity\": \"critical\",\r\n    \"component\": \"payment-infra\",\r\n    \"group\": \"database-errors\",\r\n    \"class\": \"connection-errors\",\r\n    \"custom_details\": {\r\n      \"description\": \"Database connection errors spiked to 150/min.\",\r\n      \"alert_type\": \"DB_CONNECTION_ERRORS\",\r\n      \"alertname\": \"DatabaseConnectionErrors-PaymentProcessing\",\r\n      \"dimension_service\": \"Payment Processing\",\r\n      \"dimension_instance\": \"payment-db-{{int(1,10)}}\",\r\n      \"dimension_region\": \"{{list(us-east-1,us-west-1)}}\",\r\n      \"error_rate\": \"150 errors/min\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 90,
+          "times": 2,
+          "interval_seconds": 120,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"(PRD) - API Latency Spike - (service=payment_gateway | region=us-east-1)\",\r\n    \"source\": \"/alertmanager\",\r\n    \"severity\": \"critical\",\r\n    \"component\": \"api-gateway\",\r\n    \"group\": \"performance-monitoring\",\r\n    \"class\": \"api-latency\",\r\n    \"custom_details\": {\r\n      \"description\": \"API latency exceeded 500ms for 10% of requests.\",\r\n      \"alert_type\": \"API_LATENCY_SPIKE\",\r\n      \"alertname\": \"APILatencySpike-PaymentGateway\",\r\n      \"dimension_service\": \"Login API\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"average_latency\": \"{{int(510,900)}}ms\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 10,
+          "interval_seconds": 30,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"(PRD) - Health Check Failure - (service=transaction_logging | instance=logging-01 | region=us-east-1)\",\r\n    \"source\": \"/alertmanager\",\r\n    \"severity\": \"critical\",\r\n    \"component\": \"logging-service\",\r\n    \"group\": \"health-monitoring\",\r\n    \"class\": \"service-health\",\r\n    \"custom_details\": {\r\n      \"description\": \"Health check failed for instance logging-01.\",\r\n      \"alert_type\": \"HEALTH_CHECK_FAILURE\",\r\n      \"alertname\": \"HealthCheckFailure-TransactionLogging\",\r\n      \"dimension_service\": \"Transaction Logging\",\r\n      \"dimension_instance\": \"logging-{{int(1,20)}}\",\r\n      \"dimension_region\": \"{{list(us-east-1,us-west-1)}}\",\r\n      \"failure_message\": \"Service unreachable on port 443\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 60,
+          "times": 5,
+          "interval_seconds": 60,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"(PRD) - Disk I/O Saturation - (service=payment_processing | instance=payment-db-01 | region=us-east-1)\",\r\n    \"source\": \"/alertmanager\",\r\n    \"severity\": \"warning\",\r\n    \"component\": \"database\",\r\n    \"group\": \"resource-monitoring\",\r\n    \"class\": \"disk-io\",\r\n    \"custom_details\": {\r\n      \"description\": \"Disk I/O operations reached 95% of the threshold on payment-db-01.\",\r\n      \"alert_type\": \"DISK_IO_SATURATION\",\r\n      \"alertname\": \"DiskIOSaturation-PaymentDB01\",\r\n      \"dimension_service\": \"Payment Processing\",\r\n      \"dimension_instance\": \"payment-db-{{int(1,10)}}\",\r\n      \"dimension_region\": \"{{list(us-east-1, us-west-1)}}\",\r\n      \"current_io_usage\": \"95%\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 5,
+          "interval_seconds": 90,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"(PRD) - External API Latency - (service=payment_gateway | endpoint=api.paymentgateway.com | region=us-east-1)\",\r\n    \"source\": \"Catchpoint\",\r\n    \"severity\": \"critical\",\r\n    \"component\": \"external-api\",\r\n    \"group\": \"latency-monitoring\",\r\n    \"class\": \"api-performance\",\r\n    \"custom_details\": {\r\n      \"description\": \"Response time for api.paymentgateway.com exceeded 2 seconds.\",\r\n      \"alert_type\": \"EXTERNAL_API_LATENCY\",\r\n      \"alertname\": \"ExternalAPILatency-PaymentGateway\",\r\n      \"dimension_service\": \"Login API\",\r\n      \"dimension_endpoint\": \"api.paymentgateway.com\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"observed_latency\": \"2.5s\",\r\n      \"sla_threshold\": \"2s\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 1,
+          "interval_seconds": 1,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"(PRD) - DNS Resolution Failure - (service=third_party_service | domain=thirdpartyservice.com | region=us-east-1)\",\r\n    \"source\": \"Catchpoint\",\r\n    \"severity\": \"critical\",\r\n    \"component\": \"dns-monitoring\",\r\n    \"group\": \"availability-monitoring\",\r\n    \"class\": \"dns-resolution\",\r\n    \"custom_details\": {\r\n      \"description\": \"Failed to resolve DNS for thirdpartyservice.com.\",\r\n      \"alert_type\": \"DNS_RESOLUTION_FAILURE\",\r\n      \"alertname\": \"DNSResolutionFailure-ThirdPartyService\",\r\n      \"dimension_service\": \"Infrastructure\",\r\n      \"dimension_domain\": \"thirdpartyservice.com\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"failure_count\": \"5\",\r\n      \"time_window\": \"10 minutes\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 5,
+          "interval_seconds": 60,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"(PRD) - User Transaction Failure - (user_journey=login_trade_complete | region=us-east-1)\",\r\n    \"source\": \"Catchpoint\",\r\n    \"severity\": \"warning\",\r\n    \"component\": \"user-experience\",\r\n    \"group\": \"transaction-monitoring\",\r\n    \"class\": \"user-transaction\",\r\n    \"custom_details\": {\r\n      \"description\": \"First failure detected during simulated user transaction journey (login -> trade -> complete).\",\r\n      \"alert_type\": \"USER_TRANSACTION_FAILURE\",\r\n      \"alertname\": \"UserTransactionFailure-SingleFailure\",\r\n      \"dimension_user_journey\": \"login_trade_complete\",\r\n      \"dimension_service\": \"Transaction Logging\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"step_failures\": [\r\n        {\r\n          \"step\": \"login\",\r\n          \"status\": \"success\",\r\n          \"latency\": \"300ms\"\r\n        },\r\n        {\r\n          \"step\": \"trade\",\r\n          \"status\": \"failure\",\r\n          \"latency\": \"500ms\",\r\n          \"error\": \"Trade request timeout\"\r\n        },\r\n        {\r\n          \"step\": \"complete\",\r\n          \"status\": \"not_attempted\"\r\n        }\r\n      ],\r\n      \"overall_status\": \"partial_failure\",\r\n      \"time_detected\": \"2025-01-13T12:00:00Z\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "SYN12345",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 1,
+          "interval_seconds": 1,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"(PRD) - Critical User Transaction Failure - (user_journey=login_trade_complete | region=us-east-1)\",\r\n    \"source\": \"Catchpoint\",\r\n    \"severity\": \"critical\",\r\n    \"component\": \"user-experience\",\r\n    \"group\": \"transaction-monitoring\",\r\n    \"class\": \"user-transaction\",\r\n    \"custom_details\": {\r\n      \"description\": \"Two consecutive failures detected during simulated user transaction journey (login -> trade -> complete).\",\r\n      \"alert_type\": \"USER_TRANSACTION_FAILURE\",\r\n      \"alertname\": \"UserTransactionFailure-ConsecutiveFailures\",\r\n      \"dimension_user_journey\": \"login_trade_complete\",\r\n      \"dimension_service\": \"Transaction Logging\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"step_failures\": [\r\n        {\r\n          \"step\": \"login\",\r\n          \"status\": \"success\",\r\n          \"latency\": \"280ms\"\r\n        },\r\n        {\r\n          \"step\": \"trade\",\r\n          \"status\": \"failure\",\r\n          \"latency\": \"450ms\",\r\n          \"error\": \"Trade validation failed\"\r\n        },\r\n        {\r\n          \"step\": \"complete\",\r\n          \"status\": \"not_attempted\"\r\n        }\r\n      ],\r\n      \"overall_status\": \"critical_failure\",\r\n      \"failure_count\": \"2\",\r\n      \"time_window\": \"6 minutes\",\r\n      \"time_detected\": \"2025-01-13T12:06:00Z\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "SYN12345",
+          "event_action": "trigger",
+          "delay_seconds": 120,
+          "times": 1,
+          "interval_seconds": 180,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"Increased Error Rate - (service=payment_processing | region=us-east-1)\",\r\n    \"source\": \"Splunk\",\r\n    \"severity\": \"warning\",\r\n    \"component\": \"application-logs\",\r\n    \"group\": \"error-monitoring\",\r\n    \"class\": \"error-rate\",\r\n    \"custom_details\": {\r\n      \"description\": \"Error rate in application logs increased to 5 errors/min.\",\r\n      \"alert_type\": \"ERROR_RATE_SPIKE\",\r\n      \"alertname\": \"ErrorRateSpike-PaymentProcessing\",\r\n      \"dimension_service\": \"Payment Processing\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"error_types\": [\r\n        \"TimeoutError\",\r\n        \"ValidationError\",\r\n        \"500 Internal Server Error\"\r\n      ],\r\n      \"observed_rate\": \"5 errors/min\",\r\n      \"threshold\": \"3 errors/min\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 1,
+          "interval_seconds": 1,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"Payment Gateway Response Code Mismatch - (service=payment_gateway | region=us-east-1)\",\r\n    \"source\": \"Splunk\",\r\n    \"severity\": \"warning\",\r\n    \"component\": \"api-gateway\",\r\n    \"group\": \"response-code-monitoring\",\r\n    \"class\": \"gateway-errors\",\r\n    \"custom_details\": {\r\n      \"description\": \"Non-200 HTTP responses exceeded 10% of total requests.\",\r\n      \"alert_type\": \"GATEWAY_RESPONSE_ERRORS\",\r\n      \"alertname\": \"GatewayResponseErrors-PaymentGateway\",\r\n      \"dimension_service\": \"Login API\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"response_code_distribution\": {\r\n        \"200\": \"85%\",\r\n        \"400\": \"5%\",\r\n        \"500\": \"10%\"\r\n      },\r\n      \"threshold\": \"10% non-200 responses\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 1,
+          "interval_seconds": 1,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"Transaction Latency Warning - (service=payment_processing | region=us-east-1)\",\r\n    \"source\": \"Splunk\",\r\n    \"severity\": \"warning\",\r\n    \"component\": \"latency-monitoring\",\r\n    \"group\": \"performance-monitoring\",\r\n    \"class\": \"transaction-latency\",\r\n    \"custom_details\": {\r\n      \"description\": \"Average transaction latency exceeded 1.5 seconds.\",\r\n      \"alert_type\": \"TRANSACTION_LATENCY_WARNING\",\r\n      \"alertname\": \"TransactionLatencyWarning-PaymentProcessing\",\r\n      \"dimension_service\": \"Payment Processing\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"average_latency\": \"1.6s\",\r\n      \"threshold\": \"1.5s\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 1,
+          "interval_seconds": 1,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"Authentication Success Rate Drop - (service=user_authentication | region=us-east-1)\",\r\n    \"source\": \"Splunk\",\r\n    \"severity\": \"warning\",\r\n    \"component\": \"authentication-service\",\r\n    \"group\": \"security-monitoring\",\r\n    \"class\": \"auth-success-rate\",\r\n    \"custom_details\": {\r\n      \"description\": \"Authentication success rate dropped below 95%.\",\r\n      \"alert_type\": \"AUTHENTICATION_SUCCESS_RATE_DROP\",\r\n      \"alertname\": \"AuthSuccessRateDrop-UserAuthentication\",\r\n      \"dimension_service\": \"User Authentication\",\r\n      \"dimension_region\": \"{{list(us-east-1,us-west-1)}}\",\r\n      \"success_rate\": \"{{int(80,94)}}%\",\r\n      \"threshold\": \"95%\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 15,
+          "times": 2,
+          "interval_seconds": 60,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"Unusual Spike in Retries - (service=payment_processing | region=us-east-1)\",\r\n    \"source\": \"Splunk\",\r\n    \"severity\": \"warning\",\r\n    \"component\": \"retry-logic\",\r\n    \"group\": \"resiliency-monitoring\",\r\n    \"class\": \"retry-spike\",\r\n    \"custom_details\": {\r\n      \"description\": \"Retry attempts increased to 200 per minute.\",\r\n      \"alert_type\": \"RETRY_SPIKE\",\r\n      \"alertname\": \"RetrySpike-PaymentProcessing\",\r\n      \"dimension_service\": \"Payment Processing\",\r\n      \"dimension_region\": \"us-east-1\",\r\n      \"observed_retries\": \"200/min\",\r\n      \"threshold\": \"150/min\"\r\n    }\r\n  }\r\n}",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 120,
+          "times": 5,
+          "interval_seconds": 60,
+          "event_group_id": 3658,
+          "event_type": "alert"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"Deploy Passed: branch to update payment-processing migrations\",\r\n    \"source\": \"Buildkite\",\r\n    \"custom_details\": {\r\n      \"build_id\": \"7cd3e6b1-92df-43fb-b1ad-ec8d0f8caba9\",\r\n      \"build_number\": \"142\",\r\n      \"build_state\": \"passed\",\r\n      \"run_time\": \"750\"\r\n    },\r\n    \"timestamp\": \"{{timestamp(-10800)}}\"  // 3 hours before the current time\r\n  },\r\n  \"links\": [\r\n    {\r\n      \"href\": \"https://buildkite.com/pagerduty/payment-processing/builds/142\",\r\n      \"text\": \"View in Buildkite\"\r\n    }\r\n  ]\r\n}\r\n",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 1,
+          "interval_seconds": 1,
+          "event_group_id": 3658,
+          "event_type": "change"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"Configuration Change: Updated API timeout settings for payment gateway\",\r\n    \"source\": \"Terraform\",\r\n    \"custom_details\": {\r\n      \"change_id\": \"config-12345\",\r\n      \"author\": \"infra-admin\",\r\n      \"details\": \"Increased API timeout from 2s to 3s.\"\r\n    },\r\n    \"timestamp\": \"{{timestamp(-9000)}}\"  // 2 hours and 30 minutes before\r\n  }\r\n}\r\n",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 1,
+          "interval_seconds": 1,
+          "event_group_id": 3658,
+          "event_type": "change"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"Deploy Passed: branch to add OTP verification\",\r\n    \"source\": \"Buildkite\",\r\n    \"custom_details\": {\r\n      \"build_id\": \"6f7d91a2-45cf-499e-921b-12c3f89ea7b9\",\r\n      \"build_number\": \"99\",\r\n      \"build_state\": \"passed\",\r\n      \"run_time\": \"680\"\r\n    },\r\n    \"timestamp\": \"{{timestamp(-6300)}}\"  // 1 hour and 45 minutes before\r\n  },\r\n  \"links\": [\r\n    {\r\n      \"href\": \"https://buildkite.com/pagerduty/user-authentication/builds/99\",\r\n      \"text\": \"View in Buildkite\"\r\n    }\r\n  ]\r\n}\r\n",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 1,
+          "interval_seconds": 1,
+          "event_group_id": 3658,
+          "event_type": "change"
+        },
+        {
+          "payload": "{\r\n  \"payload\": {\r\n    \"summary\": \"DNS Update: Redirect payment-gateway.example.com to new endpoint\",\r\n    \"source\": \"Cloudflare\",\r\n    \"custom_details\": {\r\n      \"change_id\": \"dns-67890\",\r\n      \"author\": \"dns-admin\",\r\n      \"details\": \"Redirected traffic to payment-gateway.example.com -> api-new.payment-gateway.com.\"\r\n    },\r\n    \"timestamp\": \"{{timestamp(-3600)}}\"  // 1 hour before\r\n  }\r\n}\r\n",
+          "dedup_key": "",
+          "event_action": "trigger",
+          "delay_seconds": 0,
+          "times": 1,
+          "interval_seconds": 1,
+          "event_group_id": 3658,
+          "event_type": "change"
+        }
+      ]
+    }
+  }
+]
